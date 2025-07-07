@@ -168,11 +168,6 @@ class TelebirrService(PaymentService):
     def __init__(self):
         self.receipt_base_url = "https://transactioninfo.ethiotelecom.et/receipt/"
         print("TelebirrService initialized for scraping. Base Receipt URL:", self.receipt_base_url)
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print("!!! WARNING: Scraping this receipt page is NOT an official API. !!!")
-        print("!!! It is prone to breaking if Ethio Telecom changes its website. !!!")
-        print("!!! Official Telebirr APIs are the recommended secure solution. !!!")
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
     async def verify_payment(self, transaction_details: TransactionDetails) -> VerificationResult:
         print(f"Attempting to verify Telebirr transaction via Playwright scraping: {transaction_details.transaction_id}")
