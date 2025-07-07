@@ -1,0 +1,5 @@
+# requirements.txt
+fastapi
+uvicorn[standard]
+pydantic # FastAPI uses Pydantic for data models
+playwright
