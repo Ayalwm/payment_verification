@@ -1,9 +1,10 @@
-FROM python:3.13-slim-buster
+FROM python:3.13-buster
 
 WORKDIR /app
 
-ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/local/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu
-
+# Install system dependencies required for Playwright and zbar
+# 'buster' image is fuller, so fewer explicit installs might be needed,
+# but we keep essential ones for Playwright and zbar-tools.
 RUN apt-get update && apt-get install -y \
     build-essential \
     libnss3 \
@@ -22,17 +23,10 @@ RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     libdbus-1-3 \
     zbar-tools \
-    pkg-config \
-    libjpeg-dev \
-    libpng-dev \
-    libtiff-dev \
-    zlib1g-dev \
-    libffi-dev \
-    libatlas-base-dev \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-RUN ldconfig
+# No need for ldconfig or LD_LIBRARY_PATH with a fuller base image, generally.
 
 COPY requirements.txt .
 
