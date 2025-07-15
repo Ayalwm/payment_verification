@@ -2,6 +2,9 @@ FROM python:3.13-buster
 
 WORKDIR /app
 
+ENV UVICORN_HOST=0.0.0.0
+ENV UVICORN_PORT=$PORT
+
 RUN apt-get update && apt-get install -y \
     build-essential \
     pkg-config \
@@ -45,4 +48,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "$PORT"]
+CMD ["uvicorn", "main:app"]
