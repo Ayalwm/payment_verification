@@ -22,6 +22,9 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libjpeg-dev \
     libpng-dev \
+    libtiff-dev \
+    zlib1g-dev \
+    libffi-dev \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
