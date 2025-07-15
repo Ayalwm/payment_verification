@@ -4,6 +4,14 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
     build-essential \
+    pkg-config \
+    libjpeg-dev \
+    libpng-dev \
+    libtiff-dev \
+    zlib1g-dev \
+    libffi-dev \
+    libatlas-base-dev \
+    libopencv-dev \
     libnss3 \
     libfontconfig1 \
     libgconf-2-4 \
@@ -19,25 +27,13 @@ RUN apt-get update && apt-get install -y \
     libxshmfence-dev \
     libglib2.0-0 \
     libdbus-1-3 \
-    libzbar0 \
-    libzbar-dev \
-    pkg-config \
-    libjpeg-dev \
-    libpng-dev \
-    libtiff-dev \
-    zlib1g-dev \
-    libffi-dev \
-    libatlas-base-dev \
-    libopencv-dev \
+    libsm6 \
+    libxext6 \
+    libxrender1 \
+    libxi6 \
+    libxtst6 \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
-
-# Create a symbolic link for libzbar.so to a common library path
-# This often helps pyzbar find the library in minimal environments
-RUN ln -s /usr/lib/x86_64-linux-gnu/libzbar.so.0 /usr/local/lib/libzbar.so
-
-# Run ldconfig to update the dynamic linker cache
-RUN ldconfig
 
 COPY requirements.txt .
 
