@@ -32,6 +32,11 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
+# Create a symbolic link for libzbar.so to a common library path
+# This often helps pyzbar find the library in minimal environments
+RUN ln -s /usr/lib/x86_64-linux-gnu/libzbar.so.0 /usr/local/lib/libzbar.so
+
+# Run ldconfig to update the dynamic linker cache
 RUN ldconfig
 
 COPY requirements.txt .
