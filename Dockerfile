@@ -2,7 +2,6 @@ FROM python:3.13-slim-buster
 
 WORKDIR /app
 
-# Set LD_LIBRARY_PATH to ensure dynamic linker finds shared libraries
 ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/local/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu
 
 RUN apt-get update && apt-get install -y \
@@ -29,10 +28,10 @@ RUN apt-get update && apt-get install -y \
     libtiff-dev \
     zlib1g-dev \
     libffi-dev \
+    libatlas-base-dev \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# Run ldconfig to update the dynamic linker cache after installing new libraries
 RUN ldconfig
 
 COPY requirements.txt .
