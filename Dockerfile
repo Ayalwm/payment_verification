@@ -3,6 +3,7 @@ FROM python:3.13-slim-buster
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
+    build-essential \
     libnss3 \
     libfontconfig1 \
     libgconf-2-4 \
@@ -27,6 +28,9 @@ RUN apt-get update && apt-get install -y \
     libffi-dev \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
+
+# Run ldconfig to update the dynamic linker cache after installing new libraries
+RUN ldconfig
 
 COPY requirements.txt .
 
