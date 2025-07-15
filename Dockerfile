@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
     libxshmfence-dev \
     libglib2.0-0 \
     libdbus-1-3 \
+    libzbar0 \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
@@ -32,4 +33,3 @@ COPY . .
 EXPOSE 8000
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
-
