@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
     libxshmfence-dev \
     libglib2.0-0 \
     libdbus-1-3 \
-    libzbar0 \
+    zbar-tools \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
