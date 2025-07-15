@@ -2,6 +2,9 @@ FROM python:3.13-slim-buster
 
 WORKDIR /app
 
+# Set LD_LIBRARY_PATH to ensure dynamic linker finds shared libraries
+ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/local/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu
+
 RUN apt-get update && apt-get install -y \
     build-essential \
     libnss3 \
