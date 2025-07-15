@@ -19,6 +19,9 @@ RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     libdbus-1-3 \
     zbar-tools \
+    pkg-config \
+    libjpeg-dev \
+    libpng-dev \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
