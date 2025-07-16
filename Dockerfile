@@ -5,6 +5,10 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     build-essential \
     pkg-config \
+    # Re-adding Zbar libraries
+    libzbar0 \
+    libzbar-dev \
+    zbar-tools \
     libjpeg-dev \
     libpng-dev \
     libtiff-dev \
@@ -33,6 +37,7 @@ RUN apt-get update && apt-get install -y \
     libxi6 \
     libxtst6 \
     curl \
+    dumb-init \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
@@ -50,5 +55,5 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=10s --retries=5 \
     CMD curl --fail http://localhost:$PORT/ || exit 1
 
-# Explicitly pass host and port to Uvicorn using 'python -m uvicorn'
-CMD python -m uvicorn main:app --host 0.0.0.0 --port $PORT
+# Use dumb-init and a short sleep before starting Uvicorn, explicitly binding to 0.0.0.0
+CMD ["dumb-init", "--", "bash", "-c", "sleep 1 && uvicorn main:app --hos
