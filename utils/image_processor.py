@@ -1,3 +1,5 @@
+# utils/image_processor.py
+
 import base64
 import re
 import json
@@ -6,6 +8,8 @@ from typing import Optional, Dict, Any
 import os
 import asyncio
 
+from PIL import Image
+from pyzbar.pyzbar import decode
 import cv2
 import numpy as np
 
@@ -97,18 +101,24 @@ async def extract_text_id_from_image_gemini(image_base64: str) -> Optional[Dict[
 
 def extract_qr_code_data(image_bytes: bytes) -> Optional[str]:
     try:
-        nparr = np.frombuffer(image_bytes, np.uint8)
-        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        np_array = np.frombuffer(image_bytes, np.uint8)
+        cv_image = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
 
-        if img is None:
+        if cv_image is None:
             return None
 
-        qr_detector = cv2.QRCodeDetector()
+        gray_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
 
-        decoded_data, _, _ = qr_detector.detectAndDecode(img)
+        thresh_image = cv2.adaptiveThreshold(gray_image, 255, 
+                                             cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
+                                             cv2.THRESH_BINARY, 11, 2)
+        
+        pil_image = Image.fromarray(thresh_image)
 
-        if decoded_data:
-            return decoded_data
+        decoded_objects = decode(pil_image)
+        if decoded_objects:
+            qr_data = decoded_objects[0].data.decode('utf-8')
+            return qr_data
         else:
             return None
     except Exception as e:
